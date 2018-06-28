@@ -1,5 +1,8 @@
 var app = angular.module("app", []);
 
+/**
+ * Following codes are used without angular
+ */
 
 /*
 function setConnected(connected) {
