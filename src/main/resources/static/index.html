@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 	<title>Hello WebSocket</title>
 	<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="styles/main.css" rel="stylesheet">
@@ -16,6 +17,45 @@
 <body ng-app="app" ng-controller="controller">
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support JavaScript! WebSocket relies on JavaScript being enabled. Please enable JavaScript and reload this page!</h2></noscript>
 
+<div id="username-page" ng-show="!connected">
+	<div class="username-page-container">
+		<h1 class="title">Type your username</h1>
+		<from id="username-form" name="username-form">
+			<div class="form-group">
+				<input type="text" id="name" placeholder="Your name here..." autocomplete="off" class="form-control" ng-model="username">
+			</div>
+			<div class="form-group">
+				<button id="send" class="btn btn-primary" type="submit" ng-click="startChatting()">Start Chatting</button>
+			</div>
+		</from>
+	</div>
+</div>
+
+<div id="chat-page" ng-show="connected">
+	<div class="chat-container">
+		<div class="chat-header">
+			<h2>Spring WebSocket Chat Demo</h2>
+		</div>
+		<ul id="conversation">
+			<li ng-repeat="mes in messages" ng-class="getClass($index, messages)">
+				<div ng-show="mes.type == 'JOIN'"><p>{{mes.sender}} joined.</p></div>
+				<div ng-show="mes.type == 'LEAVE'"><p>{{mes.sender}} left.</p></div>
+				<div ng-show="mes.type == 'CHAT'"><i style="background-color:#2196F3">{{mes.sender[0]}}</i><span>{{mes.sender}}</span><p>{{mes.content}}</p></div>
+			</li>
+		</ul>
+		<form id="message-form" name="message-form">
+			<div class="form-group">
+				<div class="input-group clearfix">
+					<input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control" ng-model="message">
+					<button class="btn btn-primary" type="submit" ng-click="sendMessage()">Send</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Starter version  -->
+<!--
 <div id="main-content" class="container">
 	<div class="row">
 		<div class="col-md-6">
@@ -23,7 +63,7 @@
 				<div class="form-group">
 					<label for="connect">WebSocket connection:</label>
 					<button id="connect" class="btn btn-default" type="submit" ng-disabled="connected" ng-click="connect()">Connect</button>
-					<button id="disconnect" class="btn vtn-default" type="submit" ng-disabled="!connected" ng-click="disconnect()">Disconnect</button>
+					<button id="disconnect" class="btn btn-default" type="submit" ng-disabled="!connected" ng-click="disconnect()">Disconnect</button>
 				</div>
 			</form>
 		</div>
@@ -55,6 +95,7 @@
 		</div>
 	</div>
 </div>
+-->
 
 <div class="modal fade" id="errorPanel" tabindex="-1" role="dialog" aria-labelledby="errorTitle" aria-hidden="false">
 	<div class="modal-dialog" role="document">

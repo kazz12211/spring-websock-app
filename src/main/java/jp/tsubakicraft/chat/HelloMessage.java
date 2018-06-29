@@ -1,4 +1,4 @@
-package jp.tsubakicraft.hello;
+package jp.tsubakicraft.chat;
 
 public class HelloMessage {
 

@@ -1,6 +1,5 @@
 package jp.tsubakicraft.controller;
 
-import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -8,9 +7,9 @@ import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 
-import jp.tsubakicraft.hello.Greeting;
-import jp.tsubakicraft.hello.HelloMessage;
-import jp.tsubakicraft.hello.MessagingError;
+import jp.tsubakicraft.chat.Greeting;
+import jp.tsubakicraft.chat.HelloMessage;
+import jp.tsubakicraft.chat.MessagingError;
 
 @Controller
 public class GreetingController {
