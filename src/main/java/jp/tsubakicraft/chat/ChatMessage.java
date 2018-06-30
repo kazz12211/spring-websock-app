@@ -1,11 +1,13 @@
 package jp.tsubakicraft.chat;
 
+import java.util.Date;
 
 public class ChatMessage {
 
 	private MessageType type;
 	private String content;
 	private String sender;
+	private Date timestamp;
 	
 	public ChatMessage() {
 	}
@@ -34,5 +36,11 @@ public class ChatMessage {
 		this.sender = sender;
 	}
 
+	public Date getTimestamp() {
+		return timestamp;
+	}
 	
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
 }

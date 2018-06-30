@@ -1,4 +1,4 @@
-app.controller("controller", function($scope) {
+app.controller("controller", function($scope, $filter) {
 
 	var stompClient = null;
 	var username = null;
@@ -36,7 +36,7 @@ app.controller("controller", function($scope) {
 		stompClient.subscribe('/user/queue/errors', (error) => {
 			showAlert(JSON.parse(error.body).message);
 		});
-		stompClient.send("/app/chat.adduser", {}, JSON.stringify({sender: $scope.username, type: 'JOIN'}));
+		stompClient.send("/app/chat.adduser", {}, JSON.stringify({sender: $scope.username, type: 'JOIN', timestamp: new Date()}));
 	}
 	
 	function onError(error) {
@@ -59,7 +59,8 @@ app.controller("controller", function($scope) {
 			let chatMessage = {
 				sender: $scope.username,
 				content: message,
-				type: 'CHAT'
+				type: 'CHAT',
+				timestamp: new Date()
 			};
 			stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
 			$scope.message = "";
@@ -67,9 +68,14 @@ app.controller("controller", function($scope) {
 	};
 	
 	function receiveMessage(chatMessage) {
+		var conversationArea = document.querySelector('#conversation');
+		
 		var message = JSON.parse(chatMessage.body);
+		console.log(JSON.stringify(message));
 		$scope.messages.push(message);
 		$scope.$apply();
+		
+		conversationArea.scrollTop = conversationArea.scrollHeight;
 	} 
 	
 	$scope.getClass = function(index, messages) {
@@ -82,55 +88,3 @@ app.controller("controller", function($scope) {
 	}
 });
 
-/**
- * Starter version
- */
-/*
-app.controller("controller", function($scope) {
-
-	var stompClient = null;
-	$scope.name = "";
-	$scope.greetings = [];
-	$scope.connected = false;
-	
-	function setConnected(connected) {
-		$scope.connected = connected;
-		$scope.greetings = [];
-		$scope.$apply();
-	}
-	
-	$scope.connect = () => {
-		var socket = new SockJS('/spring-websocket-app');
-		stompClient = Stomp.over(socket);
-		stompClient.connect({}, (frame) => {
-			setConnected(true);
-			console.log('Connected: ' + frame);
-			stompClient.subscribe('/topic/greetings', (greeting) => {
-				showGreeting(JSON.parse(greeting.body).content);
-			});
-			stompClient.subscribe('/user/queue/errors', (error) => {
-				$("#errorMessage").html(JSON.parse(error.body).message);
-				$("#errorPanel").modal({keyboard:false})
-			});
-		});
-	};
-	
-	$scope.disconnect = () => {
-		if(stompClient !== null) {
-			stompClient.disconnect();
-		}
-		setConnected(false);
-		console.log("Disconnected");
-	};
-	
-	$scope.sendName = () => {
-		stompClient.send("/app/hello", {}, JSON.stringify({'name': $scope.name}));
-	};
-	
-	function showGreeting(message) {
-		$scope.greetings.push(message);
-		$scope.name = "";
-		$scope.$apply();
-	} 
-});
-*/

@@ -11,6 +11,8 @@
 	<script src="/webjars/bootstrap/js/modal.js"></script>
 	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
 	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.min.js"></script>
 	<script src="scripts/app.js"></script>
 	<script src="scripts/controller.js"></script>
 </head>
@@ -20,7 +22,7 @@
 <div id="username-page" ng-show="!connected">
 	<div class="username-page-container">
 		<h1 class="title">Type your username</h1>
-		<from id="username-form" name="username-form">
+		<from id="usernameForm" name="usernameForm">
 			<div class="form-group">
 				<input type="text" id="name" placeholder="Your name here..." autocomplete="off" class="form-control" ng-model="username">
 			</div>
@@ -38,12 +40,12 @@
 		</div>
 		<ul id="conversation">
 			<li ng-repeat="mes in messages" ng-class="getClass($index, messages)">
-				<div ng-show="mes.type == 'JOIN'"><p>{{mes.sender}} joined.</p></div>
-				<div ng-show="mes.type == 'LEAVE'"><p>{{mes.sender}} left.</p></div>
-				<div ng-show="mes.type == 'CHAT'"><i style="background-color:#2196F3">{{mes.sender[0]}}</i><span>{{mes.sender}}</span><p>{{mes.content}}</p></div>
+				<div ng-if="mes.type == 'JOIN'"><p>{{mes.sender}} joined.</p></div>
+				<div ng-if="mes.type == 'LEAVE'"><p>{{mes.sender}} left.</p></div>
+				<div ng-if="mes.type == 'CHAT'"><i style="background-color:#2196F3">{{mes.sender[0]}}</i><span>{{mes.sender}}</span><p>{{mes.content}}</p><div class="timestamp">{{mes.timestamp | amTimeAgo }}</div></div>
 			</li>
 		</ul>
-		<form id="message-form" name="message-form">
+		<form id="messageForm" name="messageForm">
 			<div class="form-group">
 				<div class="input-group clearfix">
 					<input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control" ng-model="message">
@@ -54,48 +56,6 @@
 	</div>
 </div>
 
-<!-- Starter version  -->
-<!--
-<div id="main-content" class="container">
-	<div class="row">
-		<div class="col-md-6">
-			<form class="form-inline">
-				<div class="form-group">
-					<label for="connect">WebSocket connection:</label>
-					<button id="connect" class="btn btn-default" type="submit" ng-disabled="connected" ng-click="connect()">Connect</button>
-					<button id="disconnect" class="btn btn-default" type="submit" ng-disabled="!connected" ng-click="disconnect()">Disconnect</button>
-				</div>
-			</form>
-		</div>
-		<div class="col-md-6">
-			<form class="form-inline">
-				<div class="form-group">
-					<label for="name">What is your name?</label>
-					<input type="text" id="name" class="form-control" placeholder="Your name here..." ng-model="name">
-				</div>
-				<button id="send" class="btn btn-default" type="submit" ng-click="sendName()">Send</button>
-			</form>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-md-12">
-			<table id="conversation" class="table table-striped">
-				<thead>
-					<tr>
-						<th>Greetings</th>
-					</tr>
-				</thead>
-				<tbody id="greetings">
-				<tr ng-repeat="greeting in greetings">
-					<td>{{greeting}}</td>
-				</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
--->
 
 <div class="modal fade" id="errorPanel" tabindex="-1" role="dialog" aria-labelledby="errorTitle" aria-hidden="false">
 	<div class="modal-dialog" role="document">

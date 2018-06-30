@@ -160,7 +160,7 @@ button.accent {
     height: calc(100% - 150px);
 }
 
-#chat-page #message-form {
+#chat-page #messageForm {
     padding: 20px;
 }
 
@@ -223,12 +223,18 @@ button.accent {
     font-size: 14px;
 }
 
-#message-form .input-group input {
+#chat-page .chat-message .timestamp {
+	position: relative;
+	text-align: right;
+	font-style: italic;
+}
+
+#messageForm .input-group input {
     float: left;
     width: calc(100% - 85px);
 }
 
-#message-form .input-group button {
+#messageForm .input-group button {
     float: left;
     width: 80px;
     height: 38px;
@@ -281,11 +287,11 @@ button.accent {
         height: calc(100% - 120px);
     }
 
-    #message-form .input-group button {
+    #messageForm .input-group button {
         width: 65px;
     }
 
-    #message-form .input-group input {
+    #messageForm .input-group input {
         width: calc(100% - 70px);
     }
 

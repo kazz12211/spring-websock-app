@@ -1,5 +1,7 @@
 package jp.tsubakicraft.controller;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ public class WebSocketEventListener {
     		ChatMessage chatMessage = new ChatMessage();
     		chatMessage.setType(MessageType.LEAVE);
     		chatMessage.setSender(username);
+    		chatMessage.setTimestamp(new Date());
     		
     		messagingTemplate.convertAndSend("/topic/public", chatMessage);
     	}
