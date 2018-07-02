@@ -145,8 +145,8 @@ button.accent {
     background-color: #fff;
     box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
     margin-top: 30px;
-    height: calc(100% - 60px);
-    max-height: 600px;
+    height: calc(100% - 120px);
+    max-height: 660px;
     position: relative;
 }
 
@@ -157,11 +157,12 @@ button.accent {
     overflow: auto;
     overflow-y: scroll;
     padding: 0 20px 0px 20px;
-    height: calc(100% - 150px);
+    height: calc(100% - 210px);
 }
 
 #chat-page #messageForm {
     padding: 20px;
+    height: 120px;
 }
 
 #chat-page #conversation {
@@ -233,6 +234,20 @@ button.accent {
     float: left;
     width: calc(100% - 85px);
 }
+
+#messageForm .input-group textarea {
+	float: left;
+	width: calc(100% - 85px);
+}
+
+/*
+#messageForm .input-group button {
+    float: left;
+    width: 80px;
+    height: 38px;
+    margin-left: 5px;
+}
+*/
 
 #messageForm .input-group button {
     float: left;

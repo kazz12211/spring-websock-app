@@ -1,4 +1,4 @@
-app.controller("controller", function($scope, $filter) {
+app.controller("controller", function($scope, $filter, $sanitize) {
 
 	var stompClient = null;
 	var username = null;
@@ -11,6 +11,7 @@ app.controller("controller", function($scope, $filter) {
 	$scope.message = "";
 	$scope.messages = [];
 	$scope.connected = false;
+	$scope.required = true;
 	
 	function setConnected(connected) {
 		$scope.connected = connected;
@@ -24,6 +25,11 @@ app.controller("controller", function($scope, $filter) {
 	}
 	
 	$scope.startChatting = () => {
+		if($scope.username === null || $scope.username.trim() === "") {
+			showAlert("Username is required.");
+			return;
+		}
+		$scope.username = $scope.username.trim();
 		var socket = new SockJS('/spring-websocket-app');
 		stompClient = Stomp.over(socket);
 		stompClient.connect({}, onConnect, onError);
@@ -50,6 +56,7 @@ app.controller("controller", function($scope, $filter) {
 			stompClient.disconnect();
 		}
 		setConnected(false);
+		$scope.username = "";
 		console.log("Disconnected");
 	};
 	
@@ -58,7 +65,7 @@ app.controller("controller", function($scope, $filter) {
 		if(message && stompClient) {
 			let chatMessage = {
 				sender: $scope.username,
-				content: message,
+				content: $sanitize(message),
 				type: 'CHAT',
 				timestamp: new Date()
 			};

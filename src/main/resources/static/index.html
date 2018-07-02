@@ -13,6 +13,7 @@
 	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.2.0/angular-moment.min.js"></script>
+	<script src="/webjars/angularjs/angular-sanitize.min.js"></script>
 	<script src="scripts/app.js"></script>
 	<script src="scripts/controller.js"></script>
 </head>
@@ -24,10 +25,10 @@
 		<h1 class="title">Type your username</h1>
 		<from id="usernameForm" name="usernameForm">
 			<div class="form-group">
-				<input type="text" id="name" placeholder="Your name here..." autocomplete="off" class="form-control" ng-model="username">
+				<input type="text" id="name" placeholder="Your name here..." autocomplete="off" class="form-control" ng-required="required" ng-model="username">
 			</div>
 			<div class="form-group">
-				<button id="send" class="btn btn-primary" type="submit" ng-click="startChatting()">Start Chatting</button>
+				<button id="send" class="default" type="submit" ng-click="startChatting()">Start Chatting</button>
 			</div>
 		</from>
 	</div>
@@ -42,14 +43,14 @@
 			<li ng-repeat="mes in messages" ng-class="getClass($index, messages)">
 				<div ng-if="mes.type == 'JOIN'"><p>{{mes.sender}} joined.</p></div>
 				<div ng-if="mes.type == 'LEAVE'"><p>{{mes.sender}} left.</p></div>
-				<div ng-if="mes.type == 'CHAT'"><i style="background-color:#2196F3">{{mes.sender[0]}}</i><span>{{mes.sender}}</span><p>{{mes.content}}</p><div class="timestamp">{{mes.timestamp | amTimeAgo }}</div></div>
+				<div ng-if="mes.type == 'CHAT'"><i style="background-color:#2196F3">{{mes.sender[0]}}</i><span>{{mes.sender}}</span><p ng-bind-html="mes.content"></p><div class="timestamp">{{mes.timestamp | amTimeAgo }}</div></div>
 			</li>
 		</ul>
 		<form id="messageForm" name="messageForm">
 			<div class="form-group">
 				<div class="input-group clearfix">
-					<input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control" ng-model="message">
-					<button class="btn btn-primary" type="submit" ng-click="sendMessage()">Send</button>
+					<textarea rows=4 cols="50" id="message" placeholder="Type a message..." autocomplete="off" class="form-control" ng-model="message" ng-required="true"></textarea>
+					<button class="primary" type="submit" ng-click="sendMessage()">Send</button>
 				</div>
 			</div>
 		</form>
