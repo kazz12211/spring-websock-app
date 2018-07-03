@@ -1,5 +1,8 @@
 # Spring WebSocket app sample
 
+- Remove some starter code.
+- Add chat UI code
+
 ## Library versions used
 
 - Spring Boot 2.1.0
@@ -9,3 +12,5 @@
 - stomp-websocket 2.3.3
 - sockjs-client 1.1.2
 - angularjs 1.6.2
+- angular-moment
+- angular-sanitize
