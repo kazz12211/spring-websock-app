@@ -37,10 +37,12 @@
 <div id="chat-page" ng-show="connected">
 	<div class="chat-container">
 		<div class="chat-header">
-			<h2>Spring WebSocket Chat Demo</h2>
+			<select ng-model="topic" ng-change="topicChanged()">
+				<option ng-repeat="t in topics" value="{{t}}">{{t}}</option>
+			</select>
 		</div>
 		<ul id="conversation">
-			<li ng-repeat="mes in messages" ng-class="getClass($index, messages)">
+			<li ng-repeat="mes in topicMessages" ng-class="getClass($index, topicMessages)">
 				<div ng-if="mes.type == 'JOIN'"><p>{{mes.sender}} joined.</p></div>
 				<div ng-if="mes.type == 'LEAVE'"><p>{{mes.sender}} left.</p></div>
 				<div ng-if="mes.type == 'CHAT'"><i style="background-color:#2196F3">{{mes.sender[0]}}</i><span>{{mes.sender}}</span><p ng-bind-html="mes.content"></p><div class="timestamp">{{mes.timestamp | amTimeAgo }}</div></div>

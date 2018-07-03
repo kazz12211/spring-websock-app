@@ -1,21 +1,20 @@
 app.controller("controller", function($scope, $filter, $sanitize) {
 
 	var stompClient = null;
-	var username = null;
-	var colors = [
-		'#2196F3', '#32c787', '#00BCD4', '#ff5652',
-		'#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-	];
 	
 	$scope.username = "";
 	$scope.message = "";
 	$scope.messages = [];
+	$scope.topicMessages = [];
 	$scope.connected = false;
 	$scope.required = true;
+	$scope.topics = ['General', 'Development', 'Project Management'];
+	$scope.topic = $scope.topics[0];
 	
 	function setConnected(connected) {
 		$scope.connected = connected;
 		$scope.messages = [];
+		$scope.topicMessages = [];
 		$scope.$apply();
 	}
 	
@@ -38,7 +37,7 @@ app.controller("controller", function($scope, $filter, $sanitize) {
 	function onConnect() {
 		setConnected(true);
 		console.log('Connected');
-		stompClient.subscribe('/topic/public', receiveMessage);
+		stompClient.subscribe('/topic/messages', receiveMessage);
 		stompClient.subscribe('/user/queue/errors', (error) => {
 			showAlert(JSON.parse(error.body).message);
 		});
@@ -69,7 +68,7 @@ app.controller("controller", function($scope, $filter, $sanitize) {
 				type: 'CHAT',
 				timestamp: new Date()
 			};
-			stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+			stompClient.send("/app/chat.send/" + $scope.topic, {}, JSON.stringify(chatMessage));
 			$scope.message = "";
 		}
 	};
@@ -80,6 +79,7 @@ app.controller("controller", function($scope, $filter, $sanitize) {
 		var message = JSON.parse(chatMessage.body);
 		console.log(JSON.stringify(message));
 		$scope.messages.push(message);
+		makeTopicMessages();
 		$scope.$apply();
 		
 		conversationArea.scrollTop = conversationArea.scrollHeight;
@@ -92,6 +92,14 @@ app.controller("controller", function($scope, $filter, $sanitize) {
 		} else {
 			return "event-message";
 		}
+	};
+	
+	$scope.topicChanged = function() {
+		makeTopicMessages();
+	};
+	
+	function makeTopicMessages() {
+		$scope.topicMessages = $scope.messages.filter(mes => mes.topic === $scope.topic || mes.topic === null);
 	}
 });
 
