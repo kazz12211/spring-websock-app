@@ -2,6 +2,7 @@
 
 - Remove some starter code.
 - Add chat UI code
+- Add topic
 
 ## Library versions used
 
