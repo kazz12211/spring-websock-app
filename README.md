@@ -1,5 +1,7 @@
 # Spring WebSocket app sample
 
+This is starter branch.
+
 ## Library versions used
 
 - Spring Boot 2.1.0
